@@ -2,7 +2,7 @@
 /**
  * main - print a line
  * followed by a new line to standard error
- * Return: 1 (Success)
+ * Return: Always 1.
  */
 
 int main(void)
