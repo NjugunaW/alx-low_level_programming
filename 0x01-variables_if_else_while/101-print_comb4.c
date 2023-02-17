@@ -1,35 +1,36 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdio.h>
-#include <math.h>
 
 /**
 *  main -  prints all possible combinations of three digits
 *
-* Return: numbers separate by goma
+* Return : Always 0 (Success)
 */
 
 int main(void)
-{
-char i = '0', j = '0', k = '0';
-int a = 8;
 
-for (; i <= '9'; i++)
 {
-for (; j < '7'; j++)
-{
-for (; k < '3'; k++)
-{
-putchar (i);
-putchar (i + 1);
-putchar (i + 2);
+	int d, p, q;
 
-putchar(',');
-putchar(' ');
-}
-}
-putchar(i);
-}
-putchar('\n');
-return (0);
+	for (d = '0'; d < '9'; d++)
+	{
+	for (p = d + 1; p <= '9'; p++)
+	{
+	for (q  = p + 1; q <= '9'; q++)
+	{
+	if ((p != d) != q)
+	{
+	putchar(d);
+	putchar(p);
+	putchar(q);
+	if (d == '7' && p == '8')
+	continue;
+	putchar(',');
+	putchar(' ');
+	}
+	}
+	}
+	}
+	return (0);
 }
