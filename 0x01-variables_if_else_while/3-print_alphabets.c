@@ -4,18 +4,17 @@
 /* more headers go there */
 
 /**
-*  main - program that prints the alphabet in lowercase, followed by a new line
+*  main - prints alphabet in lowercase, and then in uppercase, then a new line
 *
 * Return: character
 */
 int main(void)
 {
-char c = 'a';
-while (c <= 'z')
-{
+char c;
+for (c = 'a';  c <= 'z'; c++)
 putchar(c);
-c++;
-}
+for (c = 'A'; c <= 'Z'; c++)
+putchar(c);
 putchar('\n');
 return (0);
 }
