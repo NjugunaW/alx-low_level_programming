@@ -3,13 +3,12 @@
  * _strchr - Entry point
  * @s: string
  * @c: character to be checked
- * Return : 0 (Success)
+ * Return: dest for occurrence and NULL if not found
  */
 char *_strchr(char *s, char c)
 {
-	int a;
+	int a = 0;
 
-	a = 0;
 	for (; s[a] >= '\0'; a++)
 	{
 		if (s[a] == c)
