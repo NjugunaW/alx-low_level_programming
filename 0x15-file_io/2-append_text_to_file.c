@@ -1,42 +1,39 @@
-#include "main.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/uio.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 /**
- * append_text_to_file - function that appends text at the end of a file
- * @filename: name of the file
- * @text_content: is the NULL terminated string to add at the end of the file
- * Return: 1 on success and -1 on failure
+ * append_text_to_file - A function that appends text at the end to the  file
+ * @filename: The filename to open and append in
+ * @text_content: The NULL terminated string to add
+ * Return: 1 on success, -1 if the file can not be created, nor written,
+ * nor write fails.
  */
 int append_text_to_file(const char *filename, char *text_content)
 {
-/*Declaration of variables*/
-	int filedes;
-	int btswrite;
-	int i;
-/*if statement to check whether filename is NULL*/
+	int fdo, fdw, len = 0;
+
 	if (filename == NULL)
-	{
 		return (-1);
-	}
-/*if statement to check whether text_content is NULL*/
+
+	fdo = open(filename, O_RDWR | O_APPEND);
+	if (fdo < 0)
+		return (-1);
 	if (text_content == NULL)
-/*for loop to iterate through text_content*/
 	{
-		for (i = 0; text_content[i];)
-			i++;
+		close(fdo);
+		return (1);
 	}
-/*flag used in open()call system to read and write a file*/
-	filedes = open(filename, O_RDWR | O_APPEND |);
-/*fnctn to check whether open()system call was successful*/
-	if (filedes == -1)
-	{
+
+	while (*(text_content + len))
+		len++;
+
+	fdw = write(fdo, text_content, len);
+	close(fdo);
+	if (fdw < 0)
 		return (-1);
-	}
-/*flag to return bytes written*/
-	btswrite = write(filedes, text_content, i);
-/*fnctn to check whether there are written bytes*/
-	if (btswrite == -1)
-	{
-		return (-1);
-	}
-	close(filedes);
+
 	return (1);
 }
