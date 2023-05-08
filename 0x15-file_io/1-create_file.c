@@ -29,7 +29,7 @@ int create_file(const char *filename, char *text_content)
 /*fnctn to return number of bytes written*/
 	btswrite = write(filedes, text_content, a);
 /*if statements to check whether file was successfully opened and created*/
-	if (filedes == -1 || btswrite == -1)
+	if (filedes < 0 || btswrite < 0)
 		return (-1);
 	close(filedes);
 	return (1);
