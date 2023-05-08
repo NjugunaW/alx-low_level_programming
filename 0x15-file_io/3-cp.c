@@ -38,29 +38,37 @@ int main(int argc, char *argv[])
 		safe_close(filed_from);
 		exit(99);
 	}
-
+/*a while loop to iterate over the file until the end of the file*/
 	while (End_of_file)
 	{
+/*function 'read' is called to read upto 1024 bytes from filed_from*/
 		End_of_file = read(filed_from, chunk, 1024);
 		if (End_of_file < 0)
 		{
+/*statement to show that the 'read' value is less than '0'*/
 			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 			safe_close(filed_from);
 			safe_close(filed_to);
 			exit(98);
 		}
+/*if 'read' retursn a vallue of 0, thi shows the end of file has been reached*/
+/*and the loop breaks*/
 		else if (End_of_file == 0)
 			break;
 		btsrd += End_of_file;
 		error = write(filed_to, chunk, End_of_file);
+/*if error occurs during writing, an arror message is printed*/
 		if (error < 0)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+/*filedescriptors are safely closed and program exits*/
 			safe_close(filed_from);
 			safe_close(filed_to);
 			exit(99);
 		}
 	}
+/*if error occurs during closing, 'safe_close' fnctn is called again*/
+/*to close 'filed_from' and program exits*/
 	error = safe_close(filed_to);
 	if (error < 0)
 	{
@@ -80,10 +88,12 @@ int main(int argc, char *argv[])
  */
 int safe_close(int description)
 {
+/*Declaration of variables*/
 	int error;
-
+/*if error occurs during closing, an error mesaage is printed*/
 	error = close(description);
 	if (error < 0)
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", description);
+/*function returns 'error'*/
 	return (error);
 }
