@@ -1,46 +1,53 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-char is_palindrome(unsigned int num);
 /**
- * main - entry point to find palindrome program
+ * main - Generates and prints passwords for the crackme5 executable.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the arguments.
  *
- * Return: always 0
+ * Return: Always 0.
  */
-int main(void)
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-	unsigned int d1, d2, temp, max;
+	char password[7], *codex;
+	int len = strlen(argv[1]), i, tmp;
 
-	max = 0;
-	for (d1 = 100; d1 <= 999; d1++)
+	codex = "A-CHRDw87lNS0E9B2TibgpnMVys5XzvtOGJcYLU+4mjW6fxqZeF3Qa1rPhdKIouk";
+
+	tmp = (len ^ 59) & 63;
+	password[0] = codex[tmp];
+
+	tmp = 0;
+	for (i = 0; i < len; i++)
+		tmp += argv[1][i];
+	password[1] = codex[(tmp ^ 79) & 63];
+
+	tmp = 1;
+	for (i = 0; i < len; i++)
+		tmp *= argv[1][i];
+	password[2] = codex[(tmp ^ 85) & 63];
+
+	tmp = 0;
+	for (i = 0; i < len; i++)
 	{
-		for (d2 = 100; d2 <= 999; d2++)
-		{
-			temp = d1 * d2;
-			if (is_palindrome(temp))
-				max = (temp > max) ? temp : max;
-		}
+		if (argv[1][i] > tmp)
+			tmp = argv[1][i];
 	}
-	printf("Largest palindrome of 3 digit numbers is: %d\n", max);
-	return(0);
-}
+	srand(tmp ^ 14);
+	password[3] = codex[rand() & 63];
 
+	tmp = 0;
+	for (i = 0; i < len; i++)
+		tmp += (argv[1][i] * argv[1][i]);
+	password[4] = codex[(tmp ^ 239) & 63];
 
-/**
-  * is_palindrome - A function that checks if list is a palindrome.
-  * @num: The number to check.
-  * Return: 1 if number is a palindrome, or 0 if not.
-  */
-char is_palindrome(unsigned int num)
-{
-	unsigned int reverse = 0, rem = 0, n = num;
+	for (i = 0; i < argv[1][0]; i++)
+		tmp = rand();
+	password[5] = codex[(tmp ^ 229) & 63];
 
-	while (n != 0)
-	{
-		rem = n % 10;
-		reverse = reverse * 10 + rem;
-		n /= 10;
-	}
-	if (reverse == num)
-		return (1);
+	password[6] = '\0';
+	printf("%s", password);
 	return (0);
 }
